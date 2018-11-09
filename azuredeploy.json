@@ -1,0 +1,498 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+      "virtualMachines_ethnode_name": {
+          "defaultValue": "ethnode",
+          "type": "string"
+      },
+      "networkInterfaces_ethnode641_name": {
+          "defaultValue": "ethnode641",
+          "type": "string"
+      },
+      "publicIPAddresses_ethnode_ip_name": {
+          "defaultValue": "ethnode-ip",
+          "type": "string"
+      },
+      "storageAccounts_ethplatformdiag_name": {
+          "defaultValue": "ethplatformdiag",
+          "type": "string"
+      },
+      "virtualNetworks_ethplatform_vnet_name": {
+          "defaultValue": "ethplatform-vnet",
+          "type": "string"
+      },
+      "networkSecurityGroups_ethnode_nsg_name": {
+          "defaultValue": "ethnode-nsg",
+          "type": "string"
+      },
+      "subnets_default_name": {
+          "defaultValue": "default",
+          "type": "string"
+      },
+      "securityRules_Port_22_name": {
+          "defaultValue": "Port_22",
+          "type": "string"
+      },
+      "securityRules_Port_8090_name": {
+          "defaultValue": "Port_8090",
+          "type": "string"
+      },
+      "virtualMachines_ethnode_id": {
+          "defaultValue": "/subscriptions/22c4c0bb-a655-43d7-a76e-9a7f59e13750/resourceGroups/ethplatform/providers/Microsoft.Compute/disks/ethnode_OsDisk_1_114f116345b84bcea2f3bd9ac3a8fd0a",
+          "type": "string"
+      }
+  },
+  "variables": {},
+  "resources": [
+      {
+          "comments": "Generalized from resource: '/subscriptions/22c4c0bb-a655-43d7-a76e-9a7f59e13750/resourceGroups/ethplatform/providers/Microsoft.Compute/virtualMachines/ethnode'.",
+          "type": "Microsoft.Compute/virtualMachines",
+          "name": "[parameters('virtualMachines_ethnode_name')]",
+          "apiVersion": "2018-06-01",
+          "location": "eastus",
+          "tags": {},
+          "scale": null,
+          "properties": {
+              "hardwareProfile": {
+                  "vmSize": "Standard_D2s_v3"
+              },
+              "storageProfile": {
+                  "imageReference": {
+                      "publisher": "Canonical",
+                      "offer": "UbuntuServer",
+                      "sku": "18.04-LTS",
+                      "version": "latest"
+                  },
+                  "osDisk": {
+                      "osType": "Linux",
+                      "name": "[concat(parameters('virtualMachines_ethnode_name'),'_OsDisk_1_114f116345b84bcea2f3bd9ac3a8fd0a')]",
+                      "createOption": "FromImage",
+                      "caching": "ReadWrite",
+                      "managedDisk": {
+                          "storageAccountType": "Standard_LRS",
+                          "id": "[parameters('virtualMachines_ethnode_id')]"
+                      },
+                      "diskSizeGB": 30
+                  },
+                  "dataDisks": []
+              },
+              "osProfile": {
+                  "computerName": "[parameters('virtualMachines_ethnode_name')]",
+                  "adminUsername": "sysadmin",
+                  "linuxConfiguration": {
+                      "disablePasswordAuthentication": false,
+                      "provisionVMAgent": true
+                  },
+                  "secrets": [],
+                  "allowExtensionOperations": true
+              },
+              "networkProfile": {
+                  "networkInterfaces": [
+                      {
+                          "id": "[resourceId('Microsoft.Network/networkInterfaces', parameters('networkInterfaces_ethnode641_name'))]"
+                      }
+                  ]
+              },
+              "diagnosticsProfile": {
+                  "bootDiagnostics": {
+                      "enabled": true,
+                      "storageUri": "[concat('https', '://', parameters('storageAccounts_ethplatformdiag_name'), '.blob.core.windows.net', '/')]"
+                  }
+              }
+          },
+          "dependsOn": [
+              "[resourceId('Microsoft.Network/networkInterfaces', parameters('networkInterfaces_ethnode641_name'))]",
+              "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_ethplatformdiag_name'))]"
+          ]
+      },
+      {
+          "comments": "Generalized from resource: '/subscriptions/22c4c0bb-a655-43d7-a76e-9a7f59e13750/resourceGroups/ethplatform/providers/Microsoft.Network/networkInterfaces/ethnode641'.",
+          "type": "Microsoft.Network/networkInterfaces",
+          "name": "[parameters('networkInterfaces_ethnode641_name')]",
+          "apiVersion": "2018-08-01",
+          "location": "eastus",
+          "tags": {},
+          "scale": null,
+          "properties": {
+              "provisioningState": "Succeeded",
+              "resourceGuid": "75f38cfb-730b-46cc-b7dd-b55b311dcb32",
+              "ipConfigurations": [
+                  {
+                      "name": "ipconfig1",
+                      "etag": "W/\"4c015b6d-93be-4dbc-8746-5c07b029e8e1\"",
+                      "properties": {
+                          "provisioningState": "Succeeded",
+                          "privateIPAddress": "10.0.16.4",
+                          "privateIPAllocationMethod": "Dynamic",
+                          "publicIPAddress": {
+                              "id": "[resourceId('Microsoft.Network/publicIPAddresses', parameters('publicIPAddresses_ethnode_ip_name'))]"
+                          },
+                          "subnet": {
+                              "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworks_ethplatform_vnet_name'), parameters('subnets_default_name'))]"
+                          },
+                          "primary": true,
+                          "privateIPAddressVersion": "IPv4"
+                      }
+                  }
+              ],
+              "dnsSettings": {
+                  "dnsServers": [],
+                  "appliedDnsServers": [],
+                  "internalDomainNameSuffix": "nkcbt224bdcetatynrlxmlgcnc.bx.internal.cloudapp.net"
+              },
+              "macAddress": "00-0D-3A-1F-43-AA",
+              "enableAcceleratedNetworking": false,
+              "enableIPForwarding": false,
+              "networkSecurityGroup": {
+                  "id": "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroups_ethnode_nsg_name'))]"
+              },
+              "primary": true,
+              "virtualMachine": {
+                  "id": "[resourceId('Microsoft.Compute/virtualMachines', parameters('virtualMachines_ethnode_name'))]"
+              },
+              "tapConfigurations": []
+          },
+          "dependsOn": [
+              "[resourceId('Microsoft.Network/publicIPAddresses', parameters('publicIPAddresses_ethnode_ip_name'))]",
+              "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworks_ethplatform_vnet_name'), parameters('subnets_default_name'))]",
+              "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroups_ethnode_nsg_name'))]",
+              "[resourceId('Microsoft.Compute/virtualMachines', parameters('virtualMachines_ethnode_name'))]"
+          ]
+      },
+      {
+          "comments": "Generalized from resource: '/subscriptions/22c4c0bb-a655-43d7-a76e-9a7f59e13750/resourceGroups/ethplatform/providers/Microsoft.Network/networkSecurityGroups/ethnode-nsg'.",
+          "type": "Microsoft.Network/networkSecurityGroups",
+          "name": "[parameters('networkSecurityGroups_ethnode_nsg_name')]",
+          "apiVersion": "2018-08-01",
+          "location": "eastus",
+          "tags": {},
+          "scale": null,
+          "properties": {
+              "provisioningState": "Succeeded",
+              "resourceGuid": "6ca070bb-8740-4725-ac64-6aa4349b114c",
+              "securityRules": [
+                  {
+                      "name": "Port_22",
+                      "etag": "W/\"31a78f85-714c-4670-8864-4bc0cefef440\"",
+                      "properties": {
+                          "provisioningState": "Succeeded",
+                          "protocol": "TCP",
+                          "sourcePortRange": "*",
+                          "destinationPortRange": "22",
+                          "sourceAddressPrefix": "*",
+                          "destinationAddressPrefix": "*",
+                          "access": "Allow",
+                          "priority": 100,
+                          "direction": "Inbound",
+                          "sourcePortRanges": [],
+                          "destinationPortRanges": [],
+                          "sourceAddressPrefixes": [],
+                          "destinationAddressPrefixes": []
+                      }
+                  },
+                  {
+                      "name": "Port_8090",
+                      "etag": "W/\"31a78f85-714c-4670-8864-4bc0cefef440\"",
+                      "properties": {
+                          "provisioningState": "Succeeded",
+                          "protocol": "*",
+                          "sourcePortRange": "*",
+                          "destinationPortRange": "8090",
+                          "sourceAddressPrefix": "*",
+                          "destinationAddressPrefix": "*",
+                          "access": "Allow",
+                          "priority": 110,
+                          "direction": "Inbound",
+                          "sourcePortRanges": [],
+                          "destinationPortRanges": [],
+                          "sourceAddressPrefixes": [],
+                          "destinationAddressPrefixes": []
+                      }
+                  }
+              ],
+              "defaultSecurityRules": [
+                  {
+                      "name": "AllowVnetInBound",
+                      "etag": "W/\"31a78f85-714c-4670-8864-4bc0cefef440\"",
+                      "properties": {
+                          "provisioningState": "Succeeded",
+                          "description": "Allow inbound traffic from all VMs in VNET",
+                          "protocol": "*",
+                          "sourcePortRange": "*",
+                          "destinationPortRange": "*",
+                          "sourceAddressPrefix": "VirtualNetwork",
+                          "destinationAddressPrefix": "VirtualNetwork",
+                          "access": "Allow",
+                          "priority": 65000,
+                          "direction": "Inbound",
+                          "sourcePortRanges": [],
+                          "destinationPortRanges": [],
+                          "sourceAddressPrefixes": [],
+                          "destinationAddressPrefixes": []
+                      }
+                  },
+                  {
+                      "name": "AllowAzureLoadBalancerInBound",
+                      "etag": "W/\"31a78f85-714c-4670-8864-4bc0cefef440\"",
+                      "properties": {
+                          "provisioningState": "Succeeded",
+                          "description": "Allow inbound traffic from azure load balancer",
+                          "protocol": "*",
+                          "sourcePortRange": "*",
+                          "destinationPortRange": "*",
+                          "sourceAddressPrefix": "AzureLoadBalancer",
+                          "destinationAddressPrefix": "*",
+                          "access": "Allow",
+                          "priority": 65001,
+                          "direction": "Inbound",
+                          "sourcePortRanges": [],
+                          "destinationPortRanges": [],
+                          "sourceAddressPrefixes": [],
+                          "destinationAddressPrefixes": []
+                      }
+                  },
+                  {
+                      "name": "DenyAllInBound",
+                      "etag": "W/\"31a78f85-714c-4670-8864-4bc0cefef440\"",
+                      "properties": {
+                          "provisioningState": "Succeeded",
+                          "description": "Deny all inbound traffic",
+                          "protocol": "*",
+                          "sourcePortRange": "*",
+                          "destinationPortRange": "*",
+                          "sourceAddressPrefix": "*",
+                          "destinationAddressPrefix": "*",
+                          "access": "Deny",
+                          "priority": 65500,
+                          "direction": "Inbound",
+                          "sourcePortRanges": [],
+                          "destinationPortRanges": [],
+                          "sourceAddressPrefixes": [],
+                          "destinationAddressPrefixes": []
+                      }
+                  },
+                  {
+                      "name": "AllowVnetOutBound",
+                      "etag": "W/\"31a78f85-714c-4670-8864-4bc0cefef440\"",
+                      "properties": {
+                          "provisioningState": "Succeeded",
+                          "description": "Allow outbound traffic from all VMs to all VMs in VNET",
+                          "protocol": "*",
+                          "sourcePortRange": "*",
+                          "destinationPortRange": "*",
+                          "sourceAddressPrefix": "VirtualNetwork",
+                          "destinationAddressPrefix": "VirtualNetwork",
+                          "access": "Allow",
+                          "priority": 65000,
+                          "direction": "Outbound",
+                          "sourcePortRanges": [],
+                          "destinationPortRanges": [],
+                          "sourceAddressPrefixes": [],
+                          "destinationAddressPrefixes": []
+                      }
+                  },
+                  {
+                      "name": "AllowInternetOutBound",
+                      "etag": "W/\"31a78f85-714c-4670-8864-4bc0cefef440\"",
+                      "properties": {
+                          "provisioningState": "Succeeded",
+                          "description": "Allow outbound traffic from all VMs to Internet",
+                          "protocol": "*",
+                          "sourcePortRange": "*",
+                          "destinationPortRange": "*",
+                          "sourceAddressPrefix": "*",
+                          "destinationAddressPrefix": "Internet",
+                          "access": "Allow",
+                          "priority": 65001,
+                          "direction": "Outbound",
+                          "sourcePortRanges": [],
+                          "destinationPortRanges": [],
+                          "sourceAddressPrefixes": [],
+                          "destinationAddressPrefixes": []
+                      }
+                  },
+                  {
+                      "name": "DenyAllOutBound",
+                      "etag": "W/\"31a78f85-714c-4670-8864-4bc0cefef440\"",
+                      "properties": {
+                          "provisioningState": "Succeeded",
+                          "description": "Deny all outbound traffic",
+                          "protocol": "*",
+                          "sourcePortRange": "*",
+                          "destinationPortRange": "*",
+                          "sourceAddressPrefix": "*",
+                          "destinationAddressPrefix": "*",
+                          "access": "Deny",
+                          "priority": 65500,
+                          "direction": "Outbound",
+                          "sourcePortRanges": [],
+                          "destinationPortRanges": [],
+                          "sourceAddressPrefixes": [],
+                          "destinationAddressPrefixes": []
+                      }
+                  }
+              ]
+          },
+          "dependsOn": []
+      },
+      {
+          "comments": "Generalized from resource: '/subscriptions/22c4c0bb-a655-43d7-a76e-9a7f59e13750/resourceGroups/ethplatform/providers/Microsoft.Network/publicIPAddresses/ethnode-ip'.",
+          "type": "Microsoft.Network/publicIPAddresses",
+          "sku": {
+              "name": "Basic",
+              "tier": "Regional"
+          },
+          "name": "[parameters('publicIPAddresses_ethnode_ip_name')]",
+          "apiVersion": "2018-08-01",
+          "location": "eastus",
+          "tags": {},
+          "scale": null,
+          "properties": {
+              "provisioningState": "Succeeded",
+              "resourceGuid": "31376ed9-cf2f-460a-9a6e-336fdebcab94",
+              "ipAddress": "23.96.86.146",
+              "publicIPAddressVersion": "IPv4",
+              "publicIPAllocationMethod": "Dynamic",
+              "idleTimeoutInMinutes": 4,
+              "ipTags": []
+          },
+          "dependsOn": []
+      },
+      {
+          "comments": "Generalized from resource: '/subscriptions/22c4c0bb-a655-43d7-a76e-9a7f59e13750/resourceGroups/ethplatform/providers/Microsoft.Network/virtualNetworks/ethplatform-vnet'.",
+          "type": "Microsoft.Network/virtualNetworks",
+          "name": "[parameters('virtualNetworks_ethplatform_vnet_name')]",
+          "apiVersion": "2018-08-01",
+          "location": "eastus",
+          "tags": {},
+          "scale": null,
+          "properties": {
+              "provisioningState": "Succeeded",
+              "resourceGuid": "f319846a-089e-49c4-8278-6c57762cc26a",
+              "addressSpace": {
+                  "addressPrefixes": [
+                      "10.0.16.0/24"
+                  ]
+              },
+              "subnets": [
+                  {
+                      "name": "default",
+                      "etag": "W/\"66ff0b25-7bd9-4327-a92a-4fd1e1abd066\"",
+                      "properties": {
+                          "provisioningState": "Succeeded",
+                          "addressPrefix": "10.0.16.0/24",
+                          "delegations": []
+                      }
+                  }
+              ],
+              "virtualNetworkPeerings": [],
+              "enableDdosProtection": false,
+              "enableVmProtection": false
+          },
+          "dependsOn": []
+      },
+      {
+          "comments": "Generalized from resource: '/subscriptions/22c4c0bb-a655-43d7-a76e-9a7f59e13750/resourceGroups/ethplatform/providers/Microsoft.Storage/storageAccounts/ethplatformdiag'.",
+          "type": "Microsoft.Storage/storageAccounts",
+          "sku": {
+              "name": "Standard_LRS",
+              "tier": "Standard"
+          },
+          "kind": "Storage",
+          "name": "[parameters('storageAccounts_ethplatformdiag_name')]",
+          "apiVersion": "2018-07-01",
+          "location": "eastus",
+          "tags": {},
+          "scale": null,
+          "properties": {
+              "networkAcls": {
+                  "bypass": "AzureServices",
+                  "virtualNetworkRules": [],
+                  "ipRules": [],
+                  "defaultAction": "Allow"
+              },
+              "supportsHttpsTrafficOnly": false,
+              "encryption": {
+                  "services": {
+                      "file": {
+                          "enabled": true
+                      },
+                      "blob": {
+                          "enabled": true
+                      }
+                  },
+                  "keySource": "Microsoft.Storage"
+              }
+          },
+          "dependsOn": []
+      },
+      {
+          "comments": "Generalized from resource: '/subscriptions/22c4c0bb-a655-43d7-a76e-9a7f59e13750/resourceGroups/ethplatform/providers/Microsoft.Network/networkSecurityGroups/ethnode-nsg/securityRules/Port_22'.",
+          "type": "Microsoft.Network/networkSecurityGroups/securityRules",
+          "name": "[concat(parameters('networkSecurityGroups_ethnode_nsg_name'), '/', parameters('securityRules_Port_22_name'))]",
+          "apiVersion": "2018-08-01",
+          "scale": null,
+          "properties": {
+              "provisioningState": "Succeeded",
+              "protocol": "TCP",
+              "sourcePortRange": "*",
+              "destinationPortRange": "22",
+              "sourceAddressPrefix": "*",
+              "destinationAddressPrefix": "*",
+              "access": "Allow",
+              "priority": 100,
+              "direction": "Inbound",
+              "sourcePortRanges": [],
+              "destinationPortRanges": [],
+              "sourceAddressPrefixes": [],
+              "destinationAddressPrefixes": []
+          },
+          "dependsOn": [
+              "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroups_ethnode_nsg_name'))]"
+          ]
+      },
+      {
+          "comments": "Generalized from resource: '/subscriptions/22c4c0bb-a655-43d7-a76e-9a7f59e13750/resourceGroups/ethplatform/providers/Microsoft.Network/networkSecurityGroups/ethnode-nsg/securityRules/Port_8090'.",
+          "type": "Microsoft.Network/networkSecurityGroups/securityRules",
+          "name": "[concat(parameters('networkSecurityGroups_ethnode_nsg_name'), '/', parameters('securityRules_Port_8090_name'))]",
+          "apiVersion": "2018-08-01",
+          "scale": null,
+          "properties": {
+              "provisioningState": "Succeeded",
+              "protocol": "*",
+              "sourcePortRange": "*",
+              "destinationPortRange": "8090",
+              "sourceAddressPrefix": "*",
+              "destinationAddressPrefix": "*",
+              "access": "Allow",
+              "priority": 110,
+              "direction": "Inbound",
+              "sourcePortRanges": [],
+              "destinationPortRanges": [],
+              "sourceAddressPrefixes": [],
+              "destinationAddressPrefixes": []
+          },
+          "dependsOn": [
+              "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroups_ethnode_nsg_name'))]"
+          ]
+      },
+      {
+          "comments": "Generalized from resource: '/subscriptions/22c4c0bb-a655-43d7-a76e-9a7f59e13750/resourceGroups/ethplatform/providers/Microsoft.Network/virtualNetworks/ethplatform-vnet/subnets/default'.",
+          "type": "Microsoft.Network/virtualNetworks/subnets",
+          "name": "[concat(parameters('virtualNetworks_ethplatform_vnet_name'), '/', parameters('subnets_default_name'))]",
+          "apiVersion": "2018-08-01",
+          "scale": null,
+          "properties": {
+              "provisioningState": "Succeeded",
+              "addressPrefix": "10.0.16.0/24",
+              "delegations": []
+          },
+          "dependsOn": [
+              "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworks_ethplatform_vnet_name'))]"
+          ]
+      }
+  ],
+  "outputs":{
+  }
+}
