@@ -156,8 +156,7 @@
           "dependsOn": [
               "[resourceId('Microsoft.Network/publicIPAddresses', parameters('publicIPAddresses_ethnode_ip_name'))]",
               "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworks_ethplatform_vnet_name'), parameters('subnets_default_name'))]",
-              "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroups_ethnode_nsg_name'))]",
-              "[resourceId('Microsoft.Compute/virtualMachines', parameters('virtualMachines_ethnode_name'))]"
+              "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroups_ethnode_nsg_name'))]"
           ]
       },
       {
