@@ -81,7 +81,7 @@
                   "adminUsername": "sysadmin",
                   "adminPassword": "Welcome@12345",
                   "linuxConfiguration": {
-                      "disablePasswordAuthentication": true,
+                      "disablePasswordAuthentication": false,
                       "provisionVMAgent": true
                   },
                   "secrets": [],
