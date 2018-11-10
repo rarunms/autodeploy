@@ -187,10 +187,10 @@
       "type": "Microsoft.Compute/virtualMachines/extensions",
       "name": "[concat(variables('vmName'),'/', 'ethereum')]",
       "apiVersion": "2018-06-01",
-      "location": "eastus",
+      "location": "[parameters('location')]",
       "dependsOn": [
         "[concat('Microsoft.Compute/virtualMachines/', variables('vmName'))]",
-        "[concat('Microsoft.Compute/virtualMachines/extensions/', concat(variables('vmName'),'/', variables('extensionName')))]"
+        "[concat('Microsoft.Compute/virtualMachines/extensions/', variables('vmName'),'/', variables('extensionName'))]"
       ],
       "properties": {
           "publisher": "Microsoft.Azure.Extensions",
