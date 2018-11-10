@@ -48,7 +48,7 @@
       {
         "type": "Microsoft.Compute/virtualMachines/extensions",
         "name": "[concat(parameters('virtualMachines_ethnode_name'),'/', 'DockerExtension')]",
-        "apiVersion": "2018-06-01",
+        "apiVersion": "2015-05-01-preview",
         "location": "eastus",
         "dependsOn": [
           "[resourceId('Microsoft.Compute/virtualMachines', parameters('virtualMachines_ethnode_name'))]"
@@ -56,9 +56,10 @@
         "properties": {
           "publisher": "Microsoft.Azure.Extensions",
           "type": "DockerExtension",
-          "typeHandlerVersion": "1.0",
+          "typeHandlerVersion": "1.1",
           "autoUpgradeMinorVersion": true,
-          "settings": {}
+          "settings": {},
+          "protectedSettings": {}
         }
       }, 
       {
