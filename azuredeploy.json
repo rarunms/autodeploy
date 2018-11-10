@@ -190,7 +190,6 @@
       "location": "[parameters('location')]",
       "dependsOn": [
         "[concat('Microsoft.Compute/virtualMachines/', variables('vmName'))]",
-        "[concat('Microsoft.Compute/virtualMachines/extensions/', variables('vmName'),'/', variables('extensionName'))]"
       ],
       "properties": {
           "publisher": "Microsoft.Azure.Extensions",
