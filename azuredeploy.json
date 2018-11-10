@@ -79,6 +79,7 @@
               "osProfile": {
                   "computerName": "[parameters('virtualMachines_ethnode_name')]",
                   "adminUsername": "sysadmin",
+                  "adminPassword": "Welcome@12345",
                   "linuxConfiguration": {
                       "disablePasswordAuthentication": false,
                       "provisionVMAgent": true
