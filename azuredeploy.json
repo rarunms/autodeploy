@@ -58,20 +58,9 @@
           "type": "DockerExtension",
           "typeHandlerVersion": "1.0",
           "autoUpgradeMinorVersion": true,
-          "settings": {
-            "compose": {
-              "wddocker": {
-                "image": "docker pull ganeshramr/ofs_smartcontract_accelerator:avenger",
-                "ports": [
-                  "8090:8090"
-                ],
-                "stdin_open": true,
-                "command": "[concat('bash -c docker run -e BLOCKCHAIN_SERVICE_URL=http://localhost:8090/blockchain -e PORT=8090 ganeshramr/ofs_smartcontract_accelerator:avenger')]"
-              }
-            }
-          }
+          "settings": {}
         }
-      },
+      }, 
       {
           "comments": "Generalized from resource: '/subscriptions/22c4c0bb-a655-43d7-a76e-9a7f59e13750/resourceGroups/ethplatform/providers/Microsoft.Compute/virtualMachines/ethnode'.",
           "type": "Microsoft.Compute/virtualMachines",
