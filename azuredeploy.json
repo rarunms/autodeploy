@@ -182,6 +182,40 @@
         "autoUpgradeMinorVersion": true,
         "settings": {}
       }
+    },
+    {
+      "type": "Microsoft.Compute/virtualMachines/extensions",
+      "name": "[concat(variables('vmName'),'/', variables('extensionName'))]",
+      "apiVersion": "2017-03-30",
+      "location": "[parameters('location')]",
+      "dependsOn": [
+        "[concat('Microsoft.Compute/virtualMachines/', variables('vmName'))]"
+      ],
+      "properties": {
+        "publisher": "Microsoft.Azure.Extensions",
+        "type": "DockerExtension",
+        "typeHandlerVersion": "1.0",
+        "autoUpgradeMinorVersion": true,
+        "settings": {}
+      }
+    },
+    {
+      "type": "Microsoft.Compute/virtualMachines/extensions",
+      "name": "[concat(variables('vmName'),'/', 'ethereum')]",
+      "apiVersion": "2018-06-01",
+      "location": "eastus",
+      "dependsOn": [
+        "[concat('Microsoft.Compute/virtualMachines/extensions/', concat(variables('vmName'),'/', variables('extensionName')))]"
+      ],
+      "properties": {
+          "publisher": "Microsoft.Azure.Extensions",
+          "type": "CustomScript",
+          "typeHandlerVersion": "2.0",
+          "autoUpgradeMinorVersion": true,
+          "settings": {
+              "commandToExecute" :"docker run -p 8090:8090 -e BLOCKCHAIN_SERVICE_URL=http://localhost:8090/blockchain -e PORT=8090 ganeshramr/ofs_smartcontract_accelerator:avenger"
+          }
+      }
     }
   ]
 }
