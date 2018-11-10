@@ -189,6 +189,7 @@
       "apiVersion": "2018-06-01",
       "location": "eastus",
       "dependsOn": [
+        "[concat('Microsoft.Compute/virtualMachines/', variables('vmName'))]",
         "[concat('Microsoft.Compute/virtualMachines/extensions/', concat(variables('vmName'),'/', variables('extensionName')))]"
       ],
       "properties": {
