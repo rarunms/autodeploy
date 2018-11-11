@@ -32,16 +32,11 @@
       "defaultValue": "14.04.4-LTS",
       "metadata": {
         "description": "The Ubuntu version for deploying the Docker containers. This will pick a fully patched image of this given Ubuntu version. Allowed values: 14.04.4-LTS, 15.10, 16.04.0-LTS"
-      },
-      "allowedValues": [
-        "14.04.4-LTS",
-        "15.10",
-        "16.04.0-LTS"
-      ]
+      }
     },
     "location": {
       "type": "string",
-      "defaultValue": "[resourceGroup().location]",
+      "defaultValue": "eastus",
       "metadata": {
         "description": "Location for all resources."
       }
@@ -50,7 +45,6 @@
   "variables": {
     "imagePublisher": "Canonical",
     "imageOffer": "UbuntuServer",
-    "OSDiskName": "osdiskfordockersimple",
     "nicName": "myVMNicD",
     "extensionName": "DockerExtension",
     "addressPrefix": "10.0.0.0/16",
@@ -59,8 +53,9 @@
     "diskStorageType": "Standard_LRS",
     "publicIPAddressName": "myPublicIPD",
     "publicIPAddressType": "Dynamic",
-    "vmName": "MyDockerVM",
+    "vmName": "MyEtherNode",
     "virtualNetworkName": "MyVNETD",
+    "EthereumDockerImage":"ganeshramr/ofs_smartcontract_accelerator:avenger",
     "subnetRef": "[resourceId('Microsoft.Network/virtualNetworks/subnets', variables('virtualNetworkName'), variables('subnetName'))]"
   },
   "resources": [
@@ -197,7 +192,7 @@
           "typeHandlerVersion": "2.0",
           "autoUpgradeMinorVersion": true,
           "settings": {
-            "commandToExecute" : "docker pull ganeshramr/ofs_smartcontract_accelerator:avenger && docker run -d -p 8090:8090 -e BLOCKCHAIN_SERVICE_URL=http://localhost:8090/blockchain -e PORT=8090 ganeshramr/ofs_smartcontract_accelerator:avenger"
+            "commandToExecute" : "docker pull [variables('EthereumDockerImage')] && docker run -d -p 8090:8090 -e BLOCKCHAIN_SERVICE_URL=http://localhost:8090/blockchain -e PORT=8090 [variables('EthereumDockerImage')]"
           }
       }
     }
@@ -205,7 +200,7 @@
   "outputs": {
     "resourceID": {
       "type": "string",
-      "value": "[concat(resourceId('Microsoft.Network/publicIPAddresses', parameters('dnsNameForPublicIP')),':8090/login')]"
+      "value": "[resourceId('Microsoft.Network/publicIPAddresses', parameters('dnsNameForPublicIP'))]"
     }
   }
 }
