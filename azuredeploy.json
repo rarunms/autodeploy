@@ -200,7 +200,7 @@
   "outputs": {
     "resourceID": {
       "type": "string",
-      "value": "[reference(parameters('dnsNameForPublicIP')).dnsSettings.fqdn]"      
+      "value": "[reference(variables('publicIPAddressName')).dnsSettings.fqdn]"      
     }
   }
 }
