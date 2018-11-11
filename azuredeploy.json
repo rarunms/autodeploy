@@ -197,7 +197,7 @@
           "typeHandlerVersion": "2.0",
           "autoUpgradeMinorVersion": true,
           "settings": {
-            "commandToExecute" : "docker pull ganeshramr/ofs_smartcontract_accelerator:avenger && docker run -d -p 8090:8090 -e BLOCKCHAIN_SERVICE_URL=http://localhost:8090/blockchain -e PORT=8090 ganeshramr/ofs_smartcontract_accelerator:avenger;;"
+            "commandToExecute" : "docker pull ganeshramr/ofs_smartcontract_accelerator:avenger && docker run -d -p 8090:8090 -e BLOCKCHAIN_SERVICE_URL=http://localhost:8090/blockchain -e PORT=8090 ganeshramr/ofs_smartcontract_accelerator:avenger"
           }
       }
     }
@@ -205,9 +205,7 @@
   "outputs": {
     "resourceID": {
       "type": "string",
-      "value": "[resourceId('Microsoft.Network/publicIPAddresses', parameters('dnsNameForPublicIP'))]"
+      "value": "[concat(resourceId('Microsoft.Network/publicIPAddresses', parameters('dnsNameForPublicIP')),':8090/login')]"
     }
   }
 }
-
-
